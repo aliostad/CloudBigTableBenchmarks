@@ -20,5 +20,17 @@ namespace CloudBigTableBenchmarks.Common.Aws
 
         [DynamoDBVersion]
         public int? Version { get; set; }
+
+        public static Payload New(string pk, string rk, int bufferSize = 1024)
+        {
+            var payload = new Payload()
+            {
+                PartitionKey = pk,
+                RowKey = rk
+            };
+
+            payload.Randomise(bufferSize);
+            return payload;
+        }
     }
 }

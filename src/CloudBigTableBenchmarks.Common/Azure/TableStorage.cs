@@ -15,7 +15,17 @@ namespace CloudBigTableBenchmarks.Common.Azure
 
         public TableStorage(string connectionString, string tableName="Payload")
         {
-            var account = CloudStorageAccount.Parse(connectionString);
+            CloudStorageAccount account = null;
+            try
+            {
+                account = CloudStorageAccount.Parse(connectionString);
+
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException("Connection string: " + connectionString, e);
+            }
+
             var client = account.CreateCloudTableClient();
             _table = client.GetTableReference(tableName);
         }

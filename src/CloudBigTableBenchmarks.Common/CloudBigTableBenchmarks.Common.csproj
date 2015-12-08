@@ -81,7 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aws\DynamoDB.cs" />
+    <Compile Include="Azure\BlobStorage.cs" />
     <Compile Include="Azure\TableStorage.cs" />
+    <Compile Include="Batcher.cs" />
+    <Compile Include="DataMakeup.cs" />
     <Compile Include="IBigTable.cs" />
     <Compile Include="IPayload.cs" />
     <Compile Include="IPayloadExtensions.cs" />

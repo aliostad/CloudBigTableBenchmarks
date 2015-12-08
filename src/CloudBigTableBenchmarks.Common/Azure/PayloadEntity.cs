@@ -17,9 +17,13 @@ namespace CloudBigTableBenchmarks.Common.Azure
 
         public byte[] TheBinary { get; set; }
 
-        public static PayloadEntity New(int bufferSize = 4096)
+        public static PayloadEntity New(string pk, string rk, int bufferSize = 1024)
         {
-            var entity = new PayloadEntity();
+            var entity = new PayloadEntity()
+            {
+                PartitionKey = pk,
+                RowKey = rk
+            };
             entity.Randomise(bufferSize);
             return entity;
         }

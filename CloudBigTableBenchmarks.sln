@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBigTableBenchmarks.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBigTableBenchmarks.DataGen", "src\CloudBigTableBenchmarks.DataGen\CloudBigTableBenchmarks.DataGen.csproj", "{96F65816-101C-4545-B58B-DF6EFD8CB958}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBigTableBenchmarks.Benchmarker", "CloudBigTableBenchmarks.Benchmarker\CloudBigTableBenchmarks.Benchmarker.csproj", "{551452D7-9721-4965-9DBD-A56F5834059D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{96F65816-101C-4545-B58B-DF6EFD8CB958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96F65816-101C-4545-B58B-DF6EFD8CB958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96F65816-101C-4545-B58B-DF6EFD8CB958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{551452D7-9721-4965-9DBD-A56F5834059D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{551452D7-9721-4965-9DBD-A56F5834059D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{551452D7-9721-4965-9DBD-A56F5834059D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{551452D7-9721-4965-9DBD-A56F5834059D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

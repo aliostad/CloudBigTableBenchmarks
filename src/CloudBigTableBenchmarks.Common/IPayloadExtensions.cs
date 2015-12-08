@@ -16,7 +16,7 @@ namespace CloudBigTableBenchmarks.Common
         private static Func<string> _rs = Gen.Random.Text.Long(); 
         private static Random _random = new Random();
 
-        public static void Randomise(this IPayload payload, int bufferSize = 4096)
+        public static void Randomise(this IPayload payload, int bufferSize = 1024)
         {
             payload.TheDate = _rd();
             payload.TheFloat = _rf();
@@ -24,6 +24,11 @@ namespace CloudBigTableBenchmarks.Common
             payload.TheString = _rs();
             payload.TheBinary = new byte[bufferSize];
             _random.NextBytes(payload.TheBinary);
+        }
+
+        public static string ToShortString(this IPayload payload)
+        {
+            return String.Format("{0}/{1}", payload.PartitionKey, payload.RowKey);
         }
     }
 }
