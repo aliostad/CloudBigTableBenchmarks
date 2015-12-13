@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace CloudBigTableBenchmarks.Common.Azure
         private CloudBlobContainer _container;
         private string _rootPath;
 
-        public BlobStorage(string connectionString, string containerName = "payload", string rootPath = "")
+        public BlobStorage(string connectionString, string containerName = "payload", string rootPath = "payloads")
         {
             _rootPath = rootPath;
 
@@ -53,6 +54,7 @@ namespace CloudBigTableBenchmarks.Common.Azure
             foreach (var payload in payloads)
             {
                 var blob = _container.GetBlockBlobReference(GetBlobName(payload.PartitionKey, payload.RowKey));
+                Trace.WriteLine(blob.Name);
                 blob.UploadText(JsonConvert.SerializeObject(payload));
             }
         }

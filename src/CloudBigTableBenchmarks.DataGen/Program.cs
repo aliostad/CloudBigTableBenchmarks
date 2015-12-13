@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,7 @@ namespace CloudBigTableBenchmarks.DataGen
                         }
 
                         var payload = factory(pk.ToString(), rowKey, DataMakeup.GetBufferSize(pk));
+                        Trace.WriteLine(payload.ToShortString());
 
                         var payloads = batcher.Add(payload);
                         if (payloads != null)

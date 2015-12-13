@@ -28,17 +28,23 @@ namespace CloudBigTableBenchmarks.Common.Azure
 
             var client = account.CreateCloudTableClient();
             _table = client.GetTableReference(tableName);
+            _table.CreateIfNotExists();
         }
 
         public void BatchInsert(IEnumerable<IPayload> payloads)
         {
-            var batchOperation = new TableBatchOperation();
-            foreach (var payload in payloads)
+            foreach (var g in payloads.GroupBy(x => x.PartitionKey))
             {
-                batchOperation.Add(TableOperation.InsertOrReplace((T) payload));    
-            }
+                var batchOperation = new TableBatchOperation();
+                foreach (var payload in g)
+                {
+                    //_table.Execute(TableOperation.InsertOrReplace((T) payload));
+                    batchOperation.Add(TableOperation.InsertOrReplace((T)payload));
+                }
 
-            _table.ExecuteBatch(batchOperation);
+                _table.ExecuteBatch(batchOperation);
+            }
+ 
         }
 
         public IPayload Get(string pk, string rk)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,15 +9,33 @@ using System.Threading.Tasks;
 using CloudBigTableBenchmarks.Common;
 using CloudBigTableBenchmarks.Common.Aws;
 using CloudBigTableBenchmarks.Common.Azure;
+using Microsoft.Practices.EnterpriseLibrary.SemanticLogging;
 using PerfIt;
+using Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Sinks;
 
 namespace CloudBigTableBenchmarks.Benchmarker
 {
+
     class Program
     {
+        private static SinkSubscription<WindowsAzureTableSink> _azureTableSinkSubscription;
+        private static ObservableEventListener _eventListener;
+        
+        private static void StartListener()
+        {
+             _eventListener = new ObservableEventListener();
+           
+             _azureTableSinkSubscription = _eventListener.LogToWindowsAzureTable(
+                    Environment.TickCount.ToString() ,
+                    Environment.GetEnvironmentVariable("mnt_connection_string"),
+                    tableAddress: "Instrumentation",
+                    bufferingInterval: TimeSpan.FromMinutes(1));
+                    _eventListener.EnableEvents(InstrumentationEventSource.Instance, EventLevel.Informational, EventKeywords.None);
+        
+        }
+
         static void Main(string[] args)
         {
-
             try
             {
                 if (args.Length < 4 || args.Length > 6)
@@ -93,16 +112,17 @@ namespace CloudBigTableBenchmarks.Benchmarker
                     CategoryName = "BigTable.Benchmarks",
                     Description = "Benchmarks on cloud impls of BigTable",
                     InstanceName = "BigTable.Benchmarks"
-                }, publishCounters: false, publishEvent: true, raisePublishErrors: true);
+                }, publishCounters: false, publishEvent: true, raisePublishErrors: false);
 
-                
+                StartListener();
+
                 foreach (var pk in Enumerable.Range(start, end-start))
                 {
                     var localPk = pk;
                     instrumentor.Instrument(() =>
                     {
                         qvery(localPk, bigtablestore.Value);
-                    });
+                    }, instrumentationContext: Environment.CommandLine);
 
                     Thread.Sleep(pauseAfterEachReqInMilli);
                 }
